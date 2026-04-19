@@ -1,0 +1,31 @@
+import timeit
+import random
+
+def binary_search(left, right, target, y):
+    # Ищем mid, чтобы mid + y == target
+    while left <= right:
+        mid = (left + right) // 2
+        if mid + y == target:
+            return mid
+        elif mid + y < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+
+def search(test):
+    for x, y in test:
+        z = binary_search(0, x, x, y)   # target = x
+        # Можно проверить, что z == x - y
+
+test = []
+for _ in range(4000):
+    x = random.randint(10, 1000)
+    y = random.randint(1, x - 1)
+    test.append((x, y))
+
+# Проверка на одной паре
+x, y = test[1]
+z = binary_search(0, x, x, y)
+print((z + y) - x)   # должно быть 0
+
+print(timeit.timeit(lambda: search(test), number=1))
